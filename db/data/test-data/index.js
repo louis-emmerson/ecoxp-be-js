@@ -1,0 +1,1 @@
+exports.itemsData = require('./items')
