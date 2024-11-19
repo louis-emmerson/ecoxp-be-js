@@ -1,0 +1,5 @@
+DROP DATABASE IF EXISTS eco_xp;
+DROP DATABASE IF EXISTS eco_xp_test;
+
+CREATE DATABASE eco_xp;
+CREATE DATABASE eco_xp_test;
