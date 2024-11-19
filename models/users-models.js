@@ -1,7 +1,22 @@
 const db = require("../db/connection")
 
-function fetchAllUsers() {
-  return db.query("SELECT * FROM users;").then(({ rows }) => {
+function fetchAllUsers(postcode_prefix) {
+
+  
+
+  const allowedPostcodesPrefixes = ['WF', 'LS', 'YO']
+
+  let querystr = "SELECT * FROM users"
+
+  if(postcode_prefix){
+    if(allowedPostcodesPrefixes.includes(postcode_prefix)){
+      querystr += ` WHERE postcode LIKE '${postcode_prefix}%'`
+    }else{
+      return Promise.reject({ status: 400, msg: "Bad Request" })
+    }
+  }
+
+  return db.query(querystr).then(({ rows }) => {
     return rows
   })
 }

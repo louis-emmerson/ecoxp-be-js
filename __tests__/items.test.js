@@ -9,6 +9,10 @@ const testData = require('../db/data/test-data')
 //     // return seed(testData)
 // })
 
+afterAll(()=>{
+    return db.end()
+  })
+
 describe("GET /api/items",()=>{
     it('should respond with an array of all items',()=>{
         return request(app)

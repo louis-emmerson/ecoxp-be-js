@@ -1,8 +1,11 @@
 const { fetchAllUsers, fetchUserByID } = require("../models/users-models")
 
-function getAllUsers(request, response){
-    fetchAllUsers().then((users)=>{
-        response.status('200').send({users})
+function getAllUsers(request, response,next){
+    const {postcode_prefix}=request.query
+    fetchAllUsers(postcode_prefix).then((users)=>{
+        response.status(200).send({users})
+    }).catch((err)=>{
+        next(err)
     })
 }
 
