@@ -136,7 +136,9 @@ const seed = ({
           ]
         )
       )
-      const councilQuery = db.query(insertCouncilQuery)
+      return db.query(insertCouncilQuery)
+    })
+    .then(()=> {
 
       const insertPostcodes = format(
         "INSERT INTO postcodes (postcode, postcode_prefix, area, garden_bin_collection, waste_bin_collection, recycling_bin_collection) VALUES %L;",
@@ -158,7 +160,9 @@ const seed = ({
           ]
         )
       )
-      const postcodesQuery = db.query(insertPostcodes)
+      return db.query(insertPostcodes)
+    })
+    .then(() => {
 
       const insertMaterials = format(
         `
@@ -169,10 +173,8 @@ const seed = ({
           plastic_code,
         ])
       )
-
-      const materialsQuery = db.query(insertMaterials)
-
-      return Promise.all([councilQuery, postcodesQuery, materialsQuery])
+  
+      return db.query(insertMaterials)
     })
     .then(() => {
       const insertUsers = format(
@@ -185,7 +187,10 @@ const seed = ({
         ])
       )
 
-      const usersQuery = db.query(insertUsers)
+      return db.query(insertUsers)
+
+    })
+    .then(() => {
 
       const insertItems = format(
         `INSERT INTO items (material_id, item_name, barcode) VALUES %L`,
@@ -195,10 +200,9 @@ const seed = ({
           barcode,
         ])
       )
+  
+      return db.query(insertItems)
 
-      const itemsQuery = db.query(insertItems)
-      
-      return Promise.all([usersQuery, itemsQuery])
     })
     .then(() => {
       const insertFollowing = format(

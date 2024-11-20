@@ -2,12 +2,16 @@ const request = require('supertest')
 const db = require('../db/connection')
 const app = require('../app')
 const testData = require('../db/data/test-data')
+const seed = require ('../db/seeds/seed')
 
 
-//SEED GOES HERE :)
-// beforeEach(()=>{
-//     // return seed(testData)
-// })
+beforeEach(() => {
+    return seed(testData)
+})
+
+afterAll(() => {
+    return db.end()
+})
 
 describe("GET /api/items",()=>{
     it('should respond with an array of all items',()=>{
