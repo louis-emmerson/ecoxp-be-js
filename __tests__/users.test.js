@@ -46,6 +46,42 @@ describe("GET /api/items", () => {
       })
   })
 })
+it("should return users whose postcodes start with WF", () => {
+  return request(app)
+    .get("/api/users?postcode_prefix=WF")
+    .expect(200)
+    .then(({ body }) => {
+      body.users.forEach((user) => {
+        expect(user.postcode.startsWith("WF")).toBe(true)
+      })
+    })
+})
+it("should return bad request when an invalid postcode prefix query is passed", () => {
+  return request(app)
+  .get("/api/users?postcode_prefix=Louis")
+  .expect(400)
+  .then(({ body }) => {
+    expect(body.msg).toBe("Bad Request")
+  })
+})
+it("should return all users with the postcode YO10 4DX", () => {
+  return request(app)
+    .get("/api/users?postcode=YO10 4DX")
+    .expect(200)
+    .then(({ body }) => {
+      body.users.forEach((user) => {
+        expect(user.postcode).toBe("YO10 4DX")
+      })
+    })
+})
+it("should return bad request when an invalid query is passed", () => {
+  return request(app)
+    .get("/api/users?postcode=YOO 1AA")
+    .expect(400)
+    .then(({ body }) => {
+      expect(body.msg).toBe("Invalid postcode format")
+    })
+})
 
 describe("GET /api/users/:user_id", () => {
   it("should return 200 and the user by its user_id", () => {
@@ -78,13 +114,4 @@ describe("GET /api/users/:user_id", () => {
         expect(body.msg).toBe("Invalid id type")
       })
   })
-  it("should return bad request when an invalid query is passed", () => {
-  return request(app)
-    .get("/api/users?postcode_prefix=Louis")
-    .expect(400)
-    .then(({ body }) => {
-      expect(body.msg).toBe("Bad Request")
-    })
-  })
 })
-

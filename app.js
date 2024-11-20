@@ -15,6 +15,7 @@ app.get("/api/users", getAllUsers)
 
 app.get("/api/users/:user_id", getUserByID)
 
+
 app.all("/*", (request, response)=>{
     response.status(404).send({msg: "Route not found!"})
 })

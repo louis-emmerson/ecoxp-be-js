@@ -1,21 +1,42 @@
 const db = require("../db/connection")
 
-function fetchAllUsers(postcode_prefix) {
+function fetchAllUsers(query) {
+  const {postcode_prefix, postcode} = query 
   let querystr = `SELECT * FROM users`
+  const params = [];
 
-  allowedPostcodePrefixs = ["WF", "YO", "LS"]
+  const allowedPostcodePrefixes = ["WF", "YO", "LS"];
 
   if (postcode_prefix) {
-    if (allowedPostcodePrefixs.includes(postcode_prefix)) {
-      querystr += ` WHERE postcode Like '${postcode_prefix}%'`
-    }else{
-        return Promise.reject({
-            status: 400,
-            msg: "Bad Request"
-          })
+    if (allowedPostcodePrefixes.includes(postcode_prefix)) {
+      querystr += ` WHERE postcode LIKE $1`;
+      params.push(`${postcode_prefix}%`);
+    } else {
+      return Promise.reject({
+        status: 400,
+        msg: "Bad Request",
+      });
     }
   }
-  return db.query(querystr)
+
+  const postcodeRegex = /^[A-Z]{1,2}[0-9][0-9A-Z]?\s?[0-9][A-Z]{2}$/i;
+  if (postcode && !postcodeRegex.test(postcode)) {
+    return Promise.reject({
+      status: 400,
+      msg: "Invalid postcode format",
+    });
+  }
+
+  if (postcode) {
+    if (querystr.includes('WHERE')) {
+      querystr += ` AND postcode = $2`;
+      params.push(postcode);
+    } else {
+      querystr += ` WHERE postcode = $1`;
+      params.push(postcode);
+    }
+  }
+  return db.query(querystr,params)
   .then(({rows}) => {
     return rows
   })
