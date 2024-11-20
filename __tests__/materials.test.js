@@ -93,14 +93,13 @@ describe("GET /api/materials/:material_id", () => {
       });
   });
 
-  it("should return the relevant error if given an invalid material_id", () => {
+  it("should return the relevant error if given an linvaid material_id", () => {
     return request(app)
       .get("/api/materials/not-a-number")
       .expect(400)
       .then(({ body }) => {
         const errorMsg = body.msg;
-        console.log(errorMsg);
-        expect(errorMsg).toBe("Invalid id type");
+        expect(errorMsg).toBe("Bad Request");
       });
   });
 });
