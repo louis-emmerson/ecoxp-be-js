@@ -111,7 +111,7 @@ describe("GET /api/users/:user_id", () => {
       .get("/api/users/notauserid")
       .expect(400)
       .then(({ body }) => {
-        expect(body.msg).toBe("Invalid id type")
+        expect(body.msg).toBe("Bad Request")
       })
   })
 })

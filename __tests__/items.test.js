@@ -65,7 +65,7 @@ describe("GET /api/items/:item_id", () => {
         .get("/api/items/hello")
         .expect(400)
         .then(({body}) => {
-            expect(body.msg).toBe("Invalid id type")
+            expect(body.msg).toBe("Bad Request")
         })
     })
 })
