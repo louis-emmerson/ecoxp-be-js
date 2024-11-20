@@ -27,12 +27,11 @@ function patchXPByUserID(request, response, next) {
   const { inc_xp } = request.body;
   updateXPbyUserID(user_id, inc_xp)
     .then((updatedUser) => {
-      if (!updatedUser) {
-        return response.status(404).send({ msg: "User not found" });
-      }
       response.status(200).send(updatedUser);
     })
-    .catch(next);
+    .catch((err) => {
+      next(err);
+    });
 }
 
 module.exports = { getAllUsers, getUserByID, patchXPByUserID };

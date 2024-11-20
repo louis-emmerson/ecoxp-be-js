@@ -144,4 +144,18 @@ describe("PATCH /api/users/:user_id (xp)", () => {
         });
       });
   });
+
+  it("should return an appropriate error message if trying to update XP on a non-existent user", () => {
+    const newXP = 10;
+    const updateXPbyUserID = {
+      inc_xp: newXP,
+    };
+    return request(app)
+      .patch("/api/users/999")
+      .send(updateXPbyUserID)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("No user with that id found");
+      });
+  });
 });

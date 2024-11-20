@@ -63,10 +63,16 @@ function updateXPbyUserID(user_id, inc_xp) {
       RETURNING *
       `,
       [inc_xp, user_id]
-  )
-    .then((result) => {
-    return result.rows[0]
-  })
+    )
+    .then(({ rows }) => {
+      if (rows.length === 0) {
+        return Promise.reject({
+          status: 404,
+          msg: "No user with that id found",
+        });
+      }
+      return rows[0];
+    });
 }
 
 module.exports = { fetchAllUsers, fetchUserByID, updateXPbyUserID };
