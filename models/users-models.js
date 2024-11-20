@@ -1,8 +1,8 @@
-const db = require("../db/connection")
+const db = require("../db/connection");
 
 function fetchAllUsers(query) {
-  const {postcode_prefix, postcode} = query 
-  let querystr = `SELECT * FROM users`
+  const { postcode_prefix, postcode } = query;
+  let querystr = `SELECT * FROM users`;
   const params = [];
 
   const allowedPostcodePrefixes = ["WF", "YO", "LS"];
@@ -28,7 +28,7 @@ function fetchAllUsers(query) {
   }
 
   if (postcode) {
-    if (querystr.includes('WHERE')) {
+    if (querystr.includes("WHERE")) {
       querystr += ` AND postcode = $2`;
       params.push(postcode);
     } else {
@@ -36,10 +36,9 @@ function fetchAllUsers(query) {
       params.push(postcode);
     }
   }
-  return db.query(querystr,params)
-  .then(({rows}) => {
-    return rows
-  })
+  return db.query(querystr, params).then(({ rows }) => {
+    return rows;
+  });
 }
 function fetchUserByID(user_id) {
   return db
@@ -49,9 +48,25 @@ function fetchUserByID(user_id) {
         return Promise.reject({
           status: 404,
           msg: "No user with that id found",
-        })
-      return rows[0]
-    })
+        });
+      return rows[0];
+    });
 }
 
-module.exports = { fetchAllUsers, fetchUserByID }
+function updateXPbyUserID(user_id, inc_xp) {
+  return db
+    .query(
+      `
+      UPDATE users
+        SET xp = xp + $1
+        WHERE user_id = $2
+      RETURNING *
+      `,
+      [inc_xp, user_id]
+  )
+    .then((result) => {
+    return result.rows[0]
+  })
+}
+
+module.exports = { fetchAllUsers, fetchUserByID, updateXPbyUserID };
