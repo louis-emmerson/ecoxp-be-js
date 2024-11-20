@@ -112,10 +112,10 @@ describe("GET /api/users/:user_id", () => {
       .get("/api/users/notauserid")
       .expect(400)
       .then(({ body }) => {
-        expect(body.msg).toBe("Invalid id type");
-      });
-  });
-});
+        expect(body.msg).toBe("Bad Request")
+      })
+  })
+})
 
 describe("PATCH /api/users/:user_id (xp)", () => {
   it("200 should update the user's XP count by 10", () => {

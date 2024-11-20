@@ -2,6 +2,7 @@ const express = require("express");
 const { getAllItems, getItemById, getItemByBarcode } = require("./controllers/items-controller");
 const { getAllMaterials, getMaterialById } = require("./controllers/materials-controller");
 const { psqlErrorHandler, customErrorHandler, serverErrorHandler } = require("./error-handlers.js");
+const { getAllLoggedItems, getLoggedItemsByUserID } = require("./controllers/loggedItems-controller.js");
 const { getAllUsers, getUserByID, patchXPByUserID } = require("./controllers/user-controller.js");
 
 const app = express()
@@ -26,6 +27,11 @@ app.get("/api/users", getAllUsers)
 app.get("/api/users/:user_id", getUserByID)
 
 app.patch("/api/users/:user_id", patchXPByUserID)
+
+//Logged Items
+app.get("/api/logged-items", getAllLoggedItems)
+
+app.get("/api/:user_id/logged-items", getLoggedItemsByUserID)
 
 
 
