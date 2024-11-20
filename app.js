@@ -3,6 +3,7 @@ const { getAllItems, getItemById, getItemByBarcode } = require("./controllers/it
 const { psqlErrorHandler, customErrorHandler, serverErrorHandler } = require("./error-handlers.js");
 const app = express()
 
+
 app.get("/api/items", getAllItems)
 
 app.get("/api/items/:item_id", getItemById)
