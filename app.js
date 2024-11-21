@@ -4,8 +4,11 @@ const { getAllMaterials, getMaterialById } = require("./controllers/materials-co
 const { psqlErrorHandler, customErrorHandler, serverErrorHandler } = require("./error-handlers.js");
 const { getAllLoggedItems, getLoggedItemsByUserID } = require("./controllers/loggedItems-controller.js");
 const { getAllUsers, getUserByID, patchXPByUserID } = require("./controllers/user-controller.js");
+const cors = require('cors');
 
 const app = express()
+
+app.use(cors());
 
 app.use(express.json());
 

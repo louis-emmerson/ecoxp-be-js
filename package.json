@@ -7,12 +7,12 @@
     "start": "node listen.js",
     "seed": "node ./db/seeds/run-seed.js",
     "seed-prod": "NODE_ENV=production npm run seed"
-
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "pg": "^8.13.1",
