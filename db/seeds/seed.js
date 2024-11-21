@@ -42,7 +42,7 @@ const seed = ({
     })
     .then(() => {
       const createCouncilTable = db.query(`
-                CREATE TABLE councils 
+                CREATE TABLE councils
                 (postcode_prefix text PRIMARY KEY,
                 council text,
                 website text,
@@ -74,6 +74,7 @@ const seed = ({
             (item_id SERIAL PRIMARY KEY,
             material_id int REFERENCES materials,
             item_name text,
+            img_url text,
             barcode text)`);
       const councilRecyclableTable = db.query(`
             CREATE TABLE council_material_recyclability(
@@ -185,8 +186,13 @@ const seed = ({
     })
     .then(() => {
       const insertItems = format(
-        `INSERT INTO items (material_id, item_name, barcode) VALUES %L`,
-        itemsData.map(({ material_id, item_name, barcode }) => [material_id, item_name, barcode])
+        `INSERT INTO items (material_id, item_name, img_url, barcode) VALUES %L`,
+        itemsData.map(({ material_id, item_name, img_url, barcode }) => [
+          material_id,
+          item_name,
+          img_url,
+          barcode,
+        ])
       );
 
       return db.query(insertItems);
@@ -209,5 +215,4 @@ const seed = ({
     });
 };
 
-
-module.exports = seed
+module.exports = seed;

@@ -43,7 +43,7 @@ module.exports = [
   },
   {
     "material_id": 8,
-    "material_name": "Aluminum ",
+    "material_name": "Aluminium ",
     "xp": 10,
     "plastic_code": null
   },

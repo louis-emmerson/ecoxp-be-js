@@ -169,7 +169,7 @@ describe("PATCH /api/users/:user_id (xp)", () => {
       .send(updateXPbyUserID)
       .expect(400)
       .then(({ body }) => {
-        expect(body.msg).toBe("Invalid id type");
+        expect(body.msg).toBe("Bad Request");
       });
   });
 });
