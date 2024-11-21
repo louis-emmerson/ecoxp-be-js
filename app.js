@@ -13,6 +13,8 @@ const {
 } = require("./controllers/loggedItems-controller.js");
 const { getAllUsers, getUserByID, patchXPByUserID } = require("./controllers/user-controller.js");
 const cors = require('cors');
+const { getAllFollowingByUserID, patchFollowingByUserID } = require("./controllers/following-controller.js");
+const { get } = require("request");
 
 const app = express();
 
@@ -44,6 +46,11 @@ app.patch("/api/users/:user_id", patchXPByUserID);
 app.get("/api/logged-items", getAllLoggedItems);
 
 app.get("/api/:user_id/logged-items", getLoggedItemsByUserID);
+
+//following
+app.get("/api/:user_id/following",getAllFollowingByUserID)
+
+app.patch('/api/:user_id/following',patchFollowingByUserID)
 
 app.all("/*", (request, response) => {
   response.status(404).send({ msg: "Route not found!" });
