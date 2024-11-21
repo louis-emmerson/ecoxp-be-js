@@ -112,10 +112,10 @@ describe("GET /api/users/:user_id", () => {
       .get("/api/users/notauserid")
       .expect(400)
       .then(({ body }) => {
-        expect(body.msg).toBe("Bad Request")
-      })
-  })
-})
+        expect(body.msg).toBe("Bad Request");
+      });
+  });
+});
 
 describe("PATCH /api/users/:user_id (xp)", () => {
   it("200 should update the user's XP count by 10", () => {
@@ -156,6 +156,20 @@ describe("PATCH /api/users/:user_id (xp)", () => {
       .expect(404)
       .then(({ body }) => {
         expect(body.msg).toBe("No user with that id found");
+      });
+  });
+
+  it("should return an appropriate error message if trying to update XP on an invalid user_id", () => {
+    const newXP = 10;
+    const updateXPbyUserID = {
+      inc_xp: newXP,
+    };
+    return request(app)
+      .patch("/api/users/not-a-user-id")
+      .send(updateXPbyUserID)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Invalid id type");
       });
   });
 });
