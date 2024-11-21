@@ -33,6 +33,7 @@ function addNewItem({ material_id, item_name, img_url, barcode }) {
       [material_id, item_name, img_url, barcode]
     )
     .then(({ rows }) => {
+      console.log(rows, "model");
       if (rows.length === 0) {
         return Promise.reject({ status: 400, msg: "Missing required fields" });
       }
