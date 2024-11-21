@@ -91,6 +91,7 @@ const seed = ({
             CREATE TABLE users
             (user_id SERIAL PRIMARY KEY,
             username text,
+            first_name text,
             avatar_img_url text,
             postcode text REFERENCES postcodes,
             xp int
@@ -173,9 +174,10 @@ const seed = ({
     })
     .then(() => {
       const insertUsers = format(
-        `INSERT INTO users (username, avatar_img_url,postcode,xp) VALUES %L;`,
-        usersData.map(({ username, avatar_img_url, postcode, xp }) => [
+        `INSERT INTO users (username, first_name, avatar_img_url,postcode,xp) VALUES %L;`,
+        usersData.map(({ username, first_name, avatar_img_url, postcode, xp }) => [
           username,
+          first_name,
           avatar_img_url,
           postcode,
           xp,

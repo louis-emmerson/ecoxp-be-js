@@ -21,6 +21,7 @@ describe("GET /api/items", () => {
         body.users.forEach((user) => {
           expect(typeof user.user_id).toBe("number");
           expect(typeof user.username).toBe("string");
+          expect(typeof user.first_name).toBe("string");
           expect(typeof user.avatar_img_url).toBe("string");
           expect(typeof user.postcode).toBe("string");
           expect(typeof user.xp).toBe("number");
@@ -29,6 +30,7 @@ describe("GET /api/items", () => {
         expect(body.users[0]).toEqual({
           user_id: 1,
           username: "LeoDiCap",
+          first_name: "Leonardo",
           avatar_img_url: "https://avatar.iran.liara.run/public/49.jpg",
           postcode: "LS1 1AZ",
           xp: 970,
@@ -92,6 +94,7 @@ describe("GET /api/users/:user_id", () => {
         expect(body.user).toEqual({
           user_id: 1,
           username: "LeoDiCap",
+          first_name: "Leonardo",
           avatar_img_url: "https://avatar.iran.liara.run/public/49.jpg",
           postcode: "LS1 1AZ",
           xp: 970,
@@ -131,6 +134,7 @@ describe("PATCH /api/users/:user_id (xp)", () => {
         const user = body;
         expect(typeof user.user_id).toBe("number");
         expect(typeof user.username).toBe("string");
+        expect(typeof user.first_name).toBe("string");
         expect(typeof user.avatar_img_url).toBe("string");
         expect(typeof user.postcode).toBe("string");
         expect(typeof user.xp).toBe("number");
@@ -138,6 +142,7 @@ describe("PATCH /api/users/:user_id (xp)", () => {
         expect(user).toEqual({
           user_id: 1,
           username: "LeoDiCap",
+          first_name: "Leonardo",
           avatar_img_url: "https://avatar.iran.liara.run/public/49.jpg",
           postcode: "LS1 1AZ",
           xp: 980,
