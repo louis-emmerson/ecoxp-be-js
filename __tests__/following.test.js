@@ -70,7 +70,11 @@ describe("GET /api/:user_id/followers", () => {
     it('should return a 200 and an empty array when passed a user id that has no followers',()=>{
       return request(app)
       .get('/api/99/followers')
+<<<<<<< HEAD
       .expect(200)
+=======
+      .expect(404)
+>>>>>>> 37e56d7cc683977ab5157feeded110429f91ef24
       .then(({body})=>{
           expect(body.followers).toEqual([])
       })

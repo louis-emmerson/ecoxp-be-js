@@ -117,7 +117,7 @@ describe("GET /api/:user_id/logged-items", () => {
   });
 });
 
-describe.only("POST /api/logged-items", () => {
+describe("POST /api/logged-items", () => {
   it("201: should succesfully add a logged item to the database", () => {
     const newLoggedItem = {
       item_id: 6,
