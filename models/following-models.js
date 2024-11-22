@@ -11,8 +11,7 @@ function fetchAllFollowingByUserID(user_id) {
     users.xp FROM following JOIN 
     users ON following.follower_id = users.user_id WHERE following.user_id = $1`,[user_id]
     )
-    .then(({rows, rowCount}) => {
-        if(rowCount === 0) return Promise.reject({status:404, msg:"No user found with that id"})
+    .then(({rows}) => {
       return rows
     })
 }
@@ -34,8 +33,7 @@ function fetchAllFollowersByUserID(user_id) {
     
 `,[user_id]
       )
-      .then(({rows, rowCount}) => {
-          if(rowCount === 0) return Promise.reject({status:404, msg:"No user found with that id"})
+      .then(({rows}) => {
         return rows
       })
   }
