@@ -55,8 +55,8 @@ describe("GET /api/:user_id/followers", () => {
       .expect(200)
       .then(({ body }) => {
         body.followers.forEach((following) => {
-          expect(typeof following.original_user_id).toBe("number")
-          expect(following.original_user_id).toBe(5)
+          expect(typeof following.follower_id).toBe("number")
+          expect(following.follower_id).toBe(1)
           expect(typeof following.username).toBe("string")
           expect(typeof following.first_name).toBe("string")
           expect(typeof following.avatar_img_url).toBe("string")

@@ -4,12 +4,12 @@ function fetchAllFollowingByUserID(user_id) {
     .query(
       `SELECT 
     following.user_id AS original_user_id, 
-    users.user_id AS follower_user_id, 
+    following.follower_id AS follower_user_id, 
     users.username, 
     users.avatar_img_url, 
     users.postcode, 
     users.xp FROM following JOIN 
-    users ON following.user_id = users.user_id WHERE following.user_id = $1`,[user_id]
+    users ON following.follower_id = users.user_id WHERE following.user_id = $1`,[user_id]
     )
     .then(({rows}) => {
       return rows
@@ -19,17 +19,9 @@ function fetchAllFollowingByUserID(user_id) {
 function fetchAllFollowersByUserID(user_id) {
     return db
       .query(
-        `SELECT 
-        following.user_id AS original_user_id, 
-        users.* 
-    FROM 
-        following
-    JOIN 
-        users 
-    ON 
-        following.follower_id = users.user_id
-    WHERE 
-        following.follower_id = $1
+        `SELECT * FROM following 
+        JOIN users ON following.user_id = users.user_id
+        WHERE following.follower_id = $1
     
 `,[user_id]
       )
