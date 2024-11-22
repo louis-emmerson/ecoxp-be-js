@@ -12,6 +12,7 @@ const {
   getLoggedItemsByUserID,
 } = require("./controllers/loggedItems-controller.js");
 const { getAllUsers, getUserByID, patchXPByUserID } = require("./controllers/user-controller.js");
+
 const cors = require("cors");
 const {
   getAllFollowingByUserID,
@@ -19,6 +20,7 @@ const {
   getAllFollowersByUserID,
 } = require("./controllers/following-controller.js");
 const { getPostcodeByUserPostcode } = require("./controllers/binDates-controllers.js");
+
 
 const app = express();
 
