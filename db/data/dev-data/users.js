@@ -9,14 +9,15 @@ module.exports = [
   {
     username: "ScarlettJ",
     first_name: "Scarlett",
-    avatar_img_url: "https://avatar.iran.liara.run/public/28.jpg",
+    
+    avatar_img_url: "https://avatar.iran.liara.run/public/73.jpg",
     postcode: "LS1 1AZ",
     xp: 410,
   },
   {
     username: "TomHolland",
     first_name: "Tom",
-    avatar_img_url: "https://avatar.iran.liara.run/public/73.jpg",
+    avatar_img_url: "https://avatar.iran.liara.run/public/28.jpg",
     postcode: "WF2 6HT",
     xp: 70,
   },
