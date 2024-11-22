@@ -14,7 +14,6 @@ const {
 const { getAllUsers, getUserByID, patchXPByUserID } = require("./controllers/user-controller.js");
 const cors = require('cors');
 const { getAllFollowingByUserID, postFollowingByUserID, getAllFollowersByUserID } = require("./controllers/following-controller.js");
-const { get } = require("request");
 
 const app = express();
 
