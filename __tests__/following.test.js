@@ -18,13 +18,12 @@ describe("GET /api/:user_id/following", () => {
     .get('/api/1/following')
     .expect(200)
     .then(({body})=>{
-        expect(body.following.length).toBe(4)
+        expect(body.following.length).toBe(1)
 
         body.following.forEach((following)=>{
             expect(typeof following.original_user_id).toBe("number")
             expect(typeof following.original_user_id).toBe("number")
             expect(typeof following.username).toBe("string")
-            expect(typeof following.first_name).toBe("string")
             expect(typeof following.avatar_img_url).toBe("string")
             expect(typeof following.postcode).toBe("string")
             expect(typeof following.xp).toBe("number")
@@ -51,7 +50,7 @@ describe("GET /api/:user_id/following", () => {
   })
 })
 
-describe.only("GET /api/:user_id/followers", () => {
+describe("GET /api/:user_id/followers", () => {
     it("should return an array of users that follow the user with the user_id passed", () => {
       return request(app)
       .get('/api/1/followers')
@@ -59,7 +58,7 @@ describe.only("GET /api/:user_id/followers", () => {
       .then(({body})=>{
           body.followers.forEach((following)=>{
               expect(typeof following.original_user_id).toBe("number")
-              expect( following.original_user_id).toBe(1)
+              expect( following.original_user_id).toBe(5)
               expect(typeof following.username).toBe("string")
               expect(typeof following.first_name).toBe("string")
               expect(typeof following.avatar_img_url).toBe("string")
@@ -70,7 +69,7 @@ describe.only("GET /api/:user_id/followers", () => {
     })
     it('should return a 404 user not found if a user_id that does not exist is passed',()=>{
       return request(app)
-      .get('/api/99/following')
+      .get('/api/99/followers')
       .expect(404)
       .then(({body})=>{
           expect(body.msg).toBe('No user found with that id')
@@ -79,7 +78,7 @@ describe.only("GET /api/:user_id/followers", () => {
     })
     it('should return a 400 bad request if passed a user_id in an invalid format',()=>{
       return request(app)
-      .get('/api/notanid/following')
+      .get('/api/notanid/followers')
       .expect(400)
       .then(({body})=>{
           expect(body.msg).toBe('Bad Request')

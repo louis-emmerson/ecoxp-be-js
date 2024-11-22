@@ -2,6 +2,7 @@ const { fetchAllFollowingByUserID, addNewFollowingByUserID, fetchAllFollowersByU
 
 function getAllFollowingByUserID(request, response, next){
     const {user_id}= request.params
+
     fetchAllFollowingByUserID(user_id).then((following)=>{
         response.status(200).send({following})
     }).catch((err)=>{

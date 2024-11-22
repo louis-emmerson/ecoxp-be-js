@@ -44,7 +44,6 @@ function postNewItem(request, response, next) {
 
   addNewItem(newItem)
     .then((item) => {
-      console.log(item, "controller");
       response.status(201).send({ item });
     })
     .catch(next);
