@@ -9,7 +9,7 @@ function fetchAllFollowingByUserID(user_id) {
     users.avatar_img_url, 
     users.postcode, 
     users.xp FROM following JOIN 
-    users ON following.follower_id = users.user_id WHERE following.user_id = $1`,[user_id]
+    users ON following.user_id = users.user_id WHERE following.user_id = $1`,[user_id]
     )
     .then(({rows}) => {
       return rows
