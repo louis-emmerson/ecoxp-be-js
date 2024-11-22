@@ -12,9 +12,13 @@ const {
   getLoggedItemsByUserID,
 } = require("./controllers/loggedItems-controller.js");
 const { getAllUsers, getUserByID, patchXPByUserID } = require("./controllers/user-controller.js");
-const cors = require('cors');
-const { getAllFollowingByUserID, postFollowingByUserID, getAllFollowersByUserID } = require("./controllers/following-controller.js");
-const { get } = require("request");
+const cors = require("cors");
+const {
+  getAllFollowingByUserID,
+  postFollowingByUserID,
+  getAllFollowersByUserID,
+} = require("./controllers/following-controller.js");
+const { getPostcodeByUserPostcode } = require("./controllers/binDates-controllers.js");
 
 const app = express();
 
@@ -48,11 +52,14 @@ app.get("/api/logged-items", getAllLoggedItems);
 app.get("/api/:user_id/logged-items", getLoggedItemsByUserID);
 
 //following
-app.get("/api/:user_id/following",getAllFollowingByUserID)
+app.get("/api/:user_id/following", getAllFollowingByUserID);
 
-app.get("/api/:user_id/followers",getAllFollowersByUserID)
+app.get("/api/:user_id/followers", getAllFollowersByUserID);
 
-app.post('/api/:user_id/following',postFollowingByUserID)
+app.post("/api/:user_id/following", postFollowingByUserID);
+
+// Bin dates
+app.get("/api/postcodes/:postcode", getPostcodeByUserPostcode);
 
 app.all("/*", (request, response) => {
   response.status(404).send({ msg: "Route not found!" });
