@@ -6,7 +6,6 @@ function fetchAllFollowingByUserID(user_id) {
     following.user_id AS original_user_id, 
     users.user_id AS follower_user_id, 
     users.username, 
-    users.first_name, 
     users.avatar_img_url, 
     users.postcode, 
     users.xp FROM following JOIN 
@@ -19,7 +18,6 @@ function fetchAllFollowingByUserID(user_id) {
 }
 
 function fetchAllFollowersByUserID(user_id) {
-    console.log(user_id)
     return db
       .query(
         `SELECT 
@@ -32,12 +30,11 @@ function fetchAllFollowersByUserID(user_id) {
     ON 
         following.follower_id = users.user_id
     WHERE 
-        following.user_id = $1
+        following.follower_id = $1
     
 `,[user_id]
       )
       .then(({rows, rowCount}) => {
-          console.log(rows)
           if(rowCount === 0) return Promise.reject({status:404, msg:"No user found with that id"})
         return rows
       })
