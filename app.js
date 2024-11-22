@@ -10,6 +10,7 @@ const { psqlErrorHandler, customErrorHandler, serverErrorHandler } = require("./
 const {
   getAllLoggedItems,
   getLoggedItemsByUserID,
+  postLoggedItem,
 } = require("./controllers/loggedItems-controller.js");
 const { getAllUsers, getUserByID, patchXPByUserID } = require("./controllers/user-controller.js");
 
@@ -50,8 +51,8 @@ app.patch("/api/users/:user_id", patchXPByUserID);
 
 //Logged Items
 app.get("/api/logged-items", getAllLoggedItems);
-
 app.get("/api/:user_id/logged-items", getLoggedItemsByUserID);
+app.post("/api/logged-items", postLoggedItem)
 
 //following
 app.get("/api/:user_id/following", getAllFollowingByUserID);
