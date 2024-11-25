@@ -6,6 +6,7 @@ const {
   logged_itemsData,
   materialsData,
   postcodesData,
+  councilRecyclabilityData,
 } = require("../data/test-data");
 
 const seed = ({
@@ -16,6 +17,7 @@ const seed = ({
   materialsData,
   postcodesData,
   usersData,
+  councilRecyclabilityData,
 }) => {
   return db
     .query("DROP TABLE IF EXISTS following")
@@ -81,7 +83,7 @@ const seed = ({
             recyclable_id SERIAL PRIMARY KEY,
             council TEXT REFERENCES councils,
             material INT REFERENCES materials,
-            recyclable BOOL
+            is_recyclable BOOL
             )
         `);
       return Promise.all([createPostcodesTable, createItemsTable, councilRecyclableTable]);
@@ -214,6 +216,17 @@ const seed = ({
 
       const loggedItemsQuery = db.query(insertLoggedItems);
       return Promise.all([followingQuery, loggedItemsQuery]);
+    })
+    .then(() => {
+      const insertRecyclabilityInfo = format(
+        `INSERT INTO council_material_recyclability (council, material, is_recyclable) VALUES %L`,
+        councilRecyclabilityData.map(({ council, material, is_recyclable }) => [
+          council,
+          material,
+          is_recyclable,
+        ])
+      );
+      return db.query(insertRecyclabilityInfo);
     });
 };
 
