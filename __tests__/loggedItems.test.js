@@ -77,6 +77,9 @@ describe("GET /api/:user_id/logged-items", () => {
       .then(({ body }) => {
         body.loggedItems.forEach((loggedItem) => {
           expect(loggedItem.user_id).toBe(2);
+          expect(typeof loggedItem.item_name).toBe("string")
+          expect(typeof loggedItem.barcode).toBe("string")
+          expect(typeof loggedItem.img_url).toBe("string")
         });
       });
   });
@@ -119,6 +122,14 @@ describe("GET /api/:user_id/logged-items", () => {
 
 describe("POST /api/logged-items", () => {
   it("201: should succesfully add a logged item to the database", () => {
+
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+
+    const today_formatted = yyyy + '-' + mm + '-' + dd
+
     const newLoggedItem = {
       item_id: 6,
       user_id: 4,
@@ -134,7 +145,7 @@ describe("POST /api/logged-items", () => {
         expect(item.logged_item_id).toBe(6);
         expect(item.item_id).toBe(6);
         expect(item.user_id).toBe(4);
-        expect(formattedDate).toEqual("2024-11-22");
+        expect(formattedDate).toEqual(today_formatted);
       });
   });
   it("400: should return with appropriate error message when fields are blank", () => {
