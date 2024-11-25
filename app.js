@@ -21,7 +21,10 @@ const {
   getAllFollowersByUserID,
 } = require("./controllers/following-controller.js");
 const { getPostcodeByUserPostcode } = require("./controllers/binDates-controllers.js");
-
+const {
+  getListRecyclableItems,
+  getListRecyclableItemsById,
+} = require("./controllers/recyclable-items-controllers.js");
 
 const app = express();
 
@@ -52,7 +55,7 @@ app.patch("/api/users/:user_id", patchXPByUserID);
 //Logged Items
 app.get("/api/logged-items", getAllLoggedItems);
 app.get("/api/:user_id/logged-items", getLoggedItemsByUserID);
-app.post("/api/logged-items", postLoggedItem)
+app.post("/api/logged-items", postLoggedItem);
 
 //following
 app.get("/api/:user_id/following", getAllFollowingByUserID);
@@ -63,6 +66,10 @@ app.post("/api/:user_id/following", postFollowingByUserID);
 
 // Bin dates
 app.get("/api/postcodes/:postcode", getPostcodeByUserPostcode);
+
+// Recyclable items
+app.get("/api/recyclability", getListRecyclableItems);
+app.get("/api/recyclability/:council/:material", getListRecyclableItemsById);
 
 app.all("/*", (request, response) => {
   response.status(404).send({ msg: "Route not found!" });
