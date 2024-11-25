@@ -36,7 +36,7 @@ function fetchAllLoggedItems(queries) {
 
 function fetchAllLoggedItemsByUserID(user_id, queries) {
   const { date, postcode } = queries;
-  let queryStr = `SELECT * FROM logged_items JOIN items ON logged_items.item_id = items.item_id WHERE user_id = $1`;
+  let queryStr = `SELECT * FROM logged_items JOIN items ON logged_items.item_id = items.item_id JOIN materials ON items.material_id = materials.material_id WHERE user_id = $1`;
   const valuesarray = [user_id];
 
   const dateRegex = /^\d{4,4}-\d{1,2}-\d{1,2}$/;

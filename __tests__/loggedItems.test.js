@@ -78,8 +78,13 @@ describe("GET /api/:user_id/logged-items", () => {
         body.loggedItems.forEach((loggedItem) => {
           expect(loggedItem.user_id).toBe(2);
           expect(typeof loggedItem.item_name).toBe("string")
-          expect(typeof loggedItem.barcode).toBe("string")
           expect(typeof loggedItem.img_url).toBe("string")
+          expect(typeof loggedItem.barcode).toBe("string")
+          expect(typeof loggedItem.material_id).toBe("number")
+          expect(typeof loggedItem.material_name).toBe("string")
+          expect(typeof loggedItem.xp).toBe("number")
+
+
         });
       });
   });
