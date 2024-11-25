@@ -68,7 +68,7 @@ function fetchAllLoggedItems(queries) {
 }
 
 function fetchAllLoggedItemsByUserID(user_id, queries) {
-  const { date } = queries
+  const { date, start, end } = queries
   let queryStr = `SELECT * FROM logged_items JOIN items ON logged_items.item_id = items.item_id JOIN materials ON items.material_id = materials.material_id WHERE user_id = $1`
   const valuesarray = [user_id]
 
@@ -78,18 +78,58 @@ function fetchAllLoggedItemsByUserID(user_id, queries) {
       msg: "Invalid date format",
     })
   }
-
-  if (date) {
-    queryStr += ` AND date = $2`
-    valuesarray.push(date)
+  if (start && !dateCheck(start)) {
+    return Promise.reject({
+      status: 400,
+      msg: "Invalid date format",
+    })
   }
+  if (end && !dateCheck(end)) {
+    return Promise.reject({
+      status: 400,
+      msg: "Invalid date format",
+    })
+  }
+  
+  if (start && end) {
+    queryStr += ` AND logged_items.date BETWEEN $2 AND $3`
+    valuesarray.push(start)
+    valuesarray.push(end)
+    console.log(queryStr)
+    console.log(valuesarray)
+  }
+
+  if (!start && end) {
+    queryStr += `  WHERE logged_items.date <= $1`
+    valuesarray.push(end)
+  }
+
+  if (start && !end) {
+    queryStr += `  WHERE logged_items.date >= $1`
+    valuesarray.push(start)
+  }
+
+  // if (postcode) {
+  //   if (valuesarray.length === 0) {
+  //     queryStr += ` WHERE users.postcode = $1`
+  //     valuesarray.push(postcode)
+  //   } else {
+  //     queryStr += ` AND users.postcode = $3`
+  //     valuesarray.push(postcode)
+  //   }
+  // }
+
+  // if (date) {
+  //   if (valuesarray.length === 0) {
+  //     queryStr += ` WHERE logged_items.date = $1`
+  //     valuesarray.push(date)
+  //   } else {
+  //     queryStr += ` AND users.postcode = $${valuesarray.length + 1}`
+  //     valuesarray.push(date)
+  //   }
+  // }
+  console.log(queryStr)
   return db.query(queryStr, valuesarray).then(({ rows, rowCount }) => {
-    if (rowCount === 0) {
-      return Promise.reject({
-        status: 404,
-        msg: "no logged items found by that user",
-      })
-    }
     return rows
   })
 }

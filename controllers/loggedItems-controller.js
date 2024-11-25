@@ -1,3 +1,4 @@
+const { CdpMouse } = require("puppeteer");
 const {
   fetchAllLoggedItems,
   fetchAllLoggedItemsByUserID,

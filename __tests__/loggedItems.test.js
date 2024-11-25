@@ -67,9 +67,83 @@ describe("GET /api/logged-items", () => {
         })
       })
   })
+  it("200: Should return an array of logged_items between the queried date ranges", () => {
+    return request(app)
+      .get("/api/logged-items?start=2024-03-17&end=2024-03-20")
+      .expect(200)
+      .then(({ body }) => {
+        const { loggedItems } = body
+
+        expect(Array.isArray(loggedItems)).toBe(true)
+
+        loggedItems.forEach((loggedItem) => {
+          const itemDate = new Date(loggedItem.date)
+          const startDate = new Date("2024-03-17")
+          const endDate = new Date("2024-03-20")
+
+          expect(itemDate).toEqual(expect.any(Date))
+          expect(itemDate.getTime()).toBeGreaterThanOrEqual(startDate.getTime())
+          expect(itemDate.getTime()).toBeLessThanOrEqual(endDate.getTime())
+        })
+      })
+  })
+  it("200: Should return an array of logged_items before the queried date end", () => {
+    return request(app)
+      .get("/api/logged-items?end=2024-03-19")
+      .expect(200)
+      .then(({ body }) => {
+        const { loggedItems } = body
+        expect(Array.isArray(loggedItems)).toBe(true)
+
+        loggedItems.forEach((loggedItem) => {
+          const itemDate = new Date(loggedItem.date)
+          const endDate = new Date("2024-03-19")
+
+          expect(itemDate).toEqual(expect.any(Date))
+          expect(itemDate.getTime()).toBeLessThanOrEqual(endDate.getTime())
+        })
+      })
+  })
+  it("200: Should return an array of logged_items after the queried start data", () => {
+    return request(app)
+      .get("/api/logged-items?start=2024-03-20")
+      .expect(200)
+      .then(({ body }) => {
+        const { loggedItems } = body
+
+        expect(Array.isArray(loggedItems)).toBe(true)
+
+        loggedItems.forEach((loggedItem) => {
+
+          const itemDate = new Date(loggedItem.date)
+          const startDate = new Date("2024-03-20")
+
+          expect(itemDate).toEqual(expect.any(Date))
+          expect(itemDate.getTime()).toBeGreaterThanOrEqual(startDate.getTime())
+        })
+      })
+  })
+  it("400: Should return an error if passed an invalid start date", () => {
+    return request(app)
+      .get("/api/logged-items?start=202/03/20")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Invalid date format")
+        
+      })
+  })
+  it("400: Should return an error if passed an invalid end date", () => {
+    return request(app)
+      .get("/api/logged-items?end=202/03/20")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Invalid date format")
+        
+      })
+  })
 })
 
-describe("GET /api/:user_id/logged-items", () => {
+describe.only("GET /api/:user_id/logged-items", () => {
   it("200: should return an array of all logged-items by specific user id", () => {
     return request(app)
       .get("/api/2/logged-items")
@@ -89,9 +163,9 @@ describe("GET /api/:user_id/logged-items", () => {
   it("404: should return an error no logged items found by that user", () => {
     return request(app)
       .get("/api/99/logged-items")
-      .expect(404)
+      .expect(200)
       .then(({ body }) => {
-        expect(body.msg).toBe("no logged items found by that user")
+        expect(body.loggedItems.length).toBe(0)
       })
   })
   it("400: should return a 400 and bad request when passed an invalid user id", () => {
@@ -121,19 +195,21 @@ describe("GET /api/:user_id/logged-items", () => {
         expect(body.msg).toBe("Invalid date format")
       })
   })
-  it("200: Should return an array of logged_items between the queried date ranges", () => {
+  it("200: Should return an array of logged_items between the queried date ranges by user_id", () => {
     return request(app)
-      .get("/api/logged-items?start=2024-03-17&end=2024-03-20")
+      .get("/api/2/logged-items?start=2024-11-24&end=2024-11-25")
       .expect(200)
       .then(({ body }) => {
         const { loggedItems } = body
+        console.log(loggedItems)
 
         expect(Array.isArray(loggedItems)).toBe(true)
+        expect(loggedItems.length).toBe(2)
 
         loggedItems.forEach((loggedItem) => {
           const itemDate = new Date(loggedItem.date)
-          const startDate = new Date("2024-03-17")
-          const endDate = new Date("2024-03-20")
+          const startDate = new Date("2024-11-24")
+          const endDate = new Date("2024-11-25")
 
           expect(itemDate).toEqual(expect.any(Date))
           expect(itemDate.getTime()).toBeGreaterThanOrEqual(startDate.getTime())

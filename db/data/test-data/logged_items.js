@@ -12,6 +12,24 @@ module.exports = [
     "date": "2024-03-18"
   },
   {
+    "logged_item_id": 2,
+    "item_id": 2,
+    "user_id": 2,
+    "date": "2024-11-25"
+  },
+  {
+    "logged_item_id": 2,
+    "item_id": 2,
+    "user_id": 2,
+    "date": "2024-11-24"
+  },
+  {
+    "logged_item_id": 2,
+    "item_id": 2,
+    "user_id": 2,
+    "date": "2024-03-18"
+  },
+  {
     "logged_item_id": 3,
     "item_id": 4,
     "user_id": 2,
