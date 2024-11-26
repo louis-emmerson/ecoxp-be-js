@@ -3,6 +3,7 @@ const db = require("../db/connection")
 const app = require("../app")
 const testData = require("../db/data/test-data")
 const seed = require("../db/seeds/seed")
+const logged_items = require("../db/data/test-data/logged_items")
 
 beforeEach(() => {
   return seed(testData)
@@ -55,6 +56,15 @@ describe("GET /api/logged-items", () => {
         })
       })
   })
+  it("400: should return an error when passed a postcode in the wrong format", () => {
+    return request(app)
+      .get("/api/logged-items?postcode=LS16 000")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Invalid postcode format")
+      })
+  })
+  
   it("200: should return an array of logged_items matching the queried postcode and queried date ", () => {
     return request(app)
       .get("/api/logged-items?postcode=LS1 1AZ&date=2024-03-17")
@@ -114,7 +124,6 @@ describe("GET /api/logged-items", () => {
         expect(Array.isArray(loggedItems)).toBe(true)
 
         loggedItems.forEach((loggedItem) => {
-
           const itemDate = new Date(loggedItem.date)
           const startDate = new Date("2024-03-20")
 
@@ -129,7 +138,6 @@ describe("GET /api/logged-items", () => {
       .expect(400)
       .then(({ body }) => {
         expect(body.msg).toBe("Invalid date format")
-        
       })
   })
   it("400: Should return an error if passed an invalid end date", () => {
@@ -138,12 +146,51 @@ describe("GET /api/logged-items", () => {
       .expect(400)
       .then(({ body }) => {
         expect(body.msg).toBe("Invalid date format")
-        
+      })
+  })
+  it("200: should return an array of logged_items matching the queried postcode_prefix", () => {
+    return request(app)
+      .get("/api/logged-items?postcode_prefix=LS")
+      .expect(200)
+      .then(({ body }) => {
+        body.loggedItems.forEach((loggedItem) => {
+          expect(loggedItem.postcode.startsWith("LS")).toBe(true)
+        })
+      })
+  })
+  it("200: should return an array of logged_items matching the queried postcode_prefix", () => {
+    return request(app)
+      .get("/api/logged-items?postcode_prefix=LS&date=2024-03-19")
+      .expect(200)
+      .then(({ body }) => {
+        body.loggedItems.forEach((loggedItem) => {
+          const formattedDate = loggedItem.date.split("T")[0]
+  
+          expect(loggedItem.postcode.startsWith("LS")).toBe(true)
+          expect(formattedDate).toBe("2024-03-19")
+        })
+      })
+  })
+  it("200: should return an empty array when passed a postcode_prefix that doesnt exist", () => {
+    return request(app)
+      .get("/api/logged-items?postcode_prefix=BD")
+      .expect(200)
+      .then(({ body }) => {
+        expect(Array.isArray(body.loggedItems)).toBe(true)
+        expect(body.loggedItems.length).toBe(0)
+      })
+  })
+  it("400: should return an error when passed a postcode prefix in the wrong format", () => {
+    return request(app)
+      .get("/api/logged-items?postcode_prefix=1B")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Invalid postcode_prefix format")
       })
   })
 })
 
-describe.only("GET /api/:user_id/logged-items", () => {
+describe("GET /api/:user_id/logged-items", () => {
   it("200: should return an array of all logged-items by specific user id", () => {
     return request(app)
       .get("/api/2/logged-items")
@@ -201,7 +248,6 @@ describe.only("GET /api/:user_id/logged-items", () => {
       .expect(200)
       .then(({ body }) => {
         const { loggedItems } = body
-        console.log(loggedItems)
 
         expect(Array.isArray(loggedItems)).toBe(true)
         expect(loggedItems.length).toBe(2)
@@ -223,6 +269,8 @@ describe.only("GET /api/:user_id/logged-items", () => {
       .expect(200)
       .then(({ body }) => {
         const { loggedItems } = body
+
+        expect(loggedItems.length).toBe(4)
         expect(Array.isArray(loggedItems)).toBe(true)
 
         loggedItems.forEach((loggedItem) => {
@@ -236,17 +284,17 @@ describe.only("GET /api/:user_id/logged-items", () => {
   })
   it("200: Should return an array of logged_items after the queried start data", () => {
     return request(app)
-      .get("/api/logged-items?start=2024-03-20")
+      .get("/api/logged-items?start=2024-11-24")
       .expect(200)
       .then(({ body }) => {
         const { loggedItems } = body
 
+        expect(loggedItems.length).toBe(2)
         expect(Array.isArray(loggedItems)).toBe(true)
 
         loggedItems.forEach((loggedItem) => {
-
           const itemDate = new Date(loggedItem.date)
-          const startDate = new Date("2024-03-20")
+          const startDate = new Date("2024-11-24")
 
           expect(itemDate).toEqual(expect.any(Date))
           expect(itemDate.getTime()).toBeGreaterThanOrEqual(startDate.getTime())
@@ -259,7 +307,6 @@ describe.only("GET /api/:user_id/logged-items", () => {
       .expect(400)
       .then(({ body }) => {
         expect(body.msg).toBe("Invalid date format")
-        
       })
   })
   it("400: Should return an error if passed an invalid end date", () => {
@@ -268,7 +315,6 @@ describe.only("GET /api/:user_id/logged-items", () => {
       .expect(400)
       .then(({ body }) => {
         expect(body.msg).toBe("Invalid date format")
-        
       })
   })
 })
@@ -294,7 +340,7 @@ describe("POST /api/logged-items", () => {
         const item = body.item
         const formattedDate = item.date.split("T")[0]
 
-        expect(item.logged_item_id).toBe(6)
+        expect(item.logged_item_id).toBe(9)
         expect(item.item_id).toBe(6)
         expect(item.user_id).toBe(4)
         expect(formattedDate).toEqual(today_formatted)
