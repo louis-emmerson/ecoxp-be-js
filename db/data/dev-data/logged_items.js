@@ -66,16 +66,22 @@ module.exports = [
     date: "2024-11-24",
   },
   {
+    logged_item_id: 9,
+    item_id: 4,
+    user_id: 1,
+    date: "2024-11-24",
+  },
+  {
     logged_item_id: 10,
     item_id: 10,
     user_id: 5,
-    date: "2024-11-28",
+    date: "2024-11-26",
   },
   {
     logged_item_id: 11,
     item_id: 5,
     user_id: 4,
-    date: "2024-11-29",
+    date: "2024-11-26",
   },
 
   // Additional past month entries
