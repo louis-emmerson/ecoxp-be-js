@@ -143,7 +143,7 @@ describe("GET /api/logged-items", () => {
   })
 })
 
-describe.only("GET /api/:user_id/logged-items", () => {
+describe("GET /api/:user_id/logged-items", () => {
   it("200: should return an array of all logged-items by specific user id", () => {
     return request(app)
       .get("/api/2/logged-items")
@@ -201,7 +201,6 @@ describe.only("GET /api/:user_id/logged-items", () => {
       .expect(200)
       .then(({ body }) => {
         const { loggedItems } = body
-        console.log(loggedItems)
 
         expect(Array.isArray(loggedItems)).toBe(true)
         expect(loggedItems.length).toBe(2)
@@ -223,30 +222,33 @@ describe.only("GET /api/:user_id/logged-items", () => {
       .expect(200)
       .then(({ body }) => {
         const { loggedItems } = body
+        
+        expect(loggedItems.length).toBe(4)
         expect(Array.isArray(loggedItems)).toBe(true)
-
+        
         loggedItems.forEach((loggedItem) => {
           const itemDate = new Date(loggedItem.date)
           const endDate = new Date("2024-03-19")
-
+          
           expect(itemDate).toEqual(expect.any(Date))
           expect(itemDate.getTime()).toBeLessThanOrEqual(endDate.getTime())
         })
       })
-  })
-  it("200: Should return an array of logged_items after the queried start data", () => {
-    return request(app)
-      .get("/api/logged-items?start=2024-03-20")
+    })
+    it("200: Should return an array of logged_items after the queried start data", () => {
+      return request(app)
+      .get("/api/logged-items?start=2024-11-24")
       .expect(200)
       .then(({ body }) => {
         const { loggedItems } = body
-
+        
+        expect(loggedItems.length).toBe(2)
         expect(Array.isArray(loggedItems)).toBe(true)
 
         loggedItems.forEach((loggedItem) => {
 
           const itemDate = new Date(loggedItem.date)
-          const startDate = new Date("2024-03-20")
+          const startDate = new Date("2024-11-24")
 
           expect(itemDate).toEqual(expect.any(Date))
           expect(itemDate.getTime()).toBeGreaterThanOrEqual(startDate.getTime())
@@ -294,7 +296,7 @@ describe("POST /api/logged-items", () => {
         const item = body.item
         const formattedDate = item.date.split("T")[0]
 
-        expect(item.logged_item_id).toBe(6)
+        expect(item.logged_item_id).toBe(9)
         expect(item.item_id).toBe(6)
         expect(item.user_id).toBe(4)
         expect(formattedDate).toEqual(today_formatted)

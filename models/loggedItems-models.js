@@ -95,8 +95,6 @@ function fetchAllLoggedItemsByUserID(user_id, queries) {
     queryStr += ` AND logged_items.date BETWEEN $2 AND $3`
     valuesarray.push(start)
     valuesarray.push(end)
-    console.log(queryStr)
-    console.log(valuesarray)
   }
 
   if (!start && end) {
@@ -109,27 +107,17 @@ function fetchAllLoggedItemsByUserID(user_id, queries) {
     valuesarray.push(start)
   }
 
-  // if (postcode) {
-  //   if (valuesarray.length === 0) {
-  //     queryStr += ` WHERE users.postcode = $1`
-  //     valuesarray.push(postcode)
-  //   } else {
-  //     queryStr += ` AND users.postcode = $3`
-  //     valuesarray.push(postcode)
-  //   }
-  // }
 
-  // if (date) {
-  //   if (valuesarray.length === 0) {
-  //     queryStr += ` WHERE logged_items.date = $1`
-  //     valuesarray.push(date)
-  //   } else {
-  //     queryStr += ` AND users.postcode = $${valuesarray.length + 1}`
-  //     valuesarray.push(date)
-  //   }
-  // }
-  console.log(queryStr)
-  return db.query(queryStr, valuesarray).then(({ rows, rowCount }) => {
+  if (date) {
+    if (valuesarray.length === 0) {
+      queryStr += ` WHERE logged_items.date = $2`
+      valuesarray.push(date)
+    } else {
+      queryStr += ` AND logged_items.date = $${valuesarray.length + 1}`
+      valuesarray.push(date)
+    }
+  }
+  return db.query(queryStr, valuesarray).then(({ rows }) => {
     return rows
   })
 }
