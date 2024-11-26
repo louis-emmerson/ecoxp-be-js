@@ -51,7 +51,19 @@ module.exports = [
     logged_item_id: 9,
     item_id: 3,
     user_id: 1,
-    date: "2024-11-27",
+    date: "2024-11-26",
+  },
+  {
+    logged_item_id: 9,
+    item_id: 3,
+    user_id: 1,
+    date: "2024-11-25",
+  },
+  {
+    logged_item_id: 9,
+    item_id: 3,
+    user_id: 1,
+    date: "2024-11-24",
   },
   {
     logged_item_id: 10,
