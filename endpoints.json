@@ -1,0 +1,273 @@
+{
+  "GET /api": {
+    "description": "serves up a json representation of all the available endpoints of the api"
+  },
+  "GET /api/items": {
+    "description": "Serves an array of all the items",
+    "exampleResponse": {
+      "items": [
+        {
+          "item_id": 1,
+          "material_id": 1,
+          "item_name": "Highland Spring Water",
+          "img_url": "https://assets.sainsburys-groceries.co.uk/gol/2954950/1/1500x1500.jpg",
+          "barcode": "1234567890"
+        }
+      ]
+    }
+  },
+  "GET /api/items/:item_id": {
+    "description": "Serves an object with the matching item_id",
+    "exampleResponse": {
+      "item": {
+        "item_id": 2,
+        "material_id": 2,
+        "item_name": "Cravendale Milk",
+        "img_url": "https://assets.sainsburys-groceries.co.uk/gol/3216590/1/1500x1500.jpg",
+        "barcode": "2345678901"
+      }
+    }
+  },
+  "GET /api/items/barcode": {
+    "description": "Serves an item object with the matching barcode",
+    "exampleResponse": {
+      "item": {
+        "item_id": 2,
+        "material_id": 2,
+        "item_name": "Cravendale Milk",
+        "img_url": "https://assets.sainsburys-groceries.co.uk/gol/3216590/1/1500x1500.jpg",
+        "barcode": "2345678901"
+      }
+    }
+  },
+
+  "POST /api/items": {
+    "description": "posts a new item to the database and serves the newly posted item",
+    "exampleBody": {
+      "material_id": 8,
+      "item_name": "Aerosol deodorant",
+      "img_url": "https://assets.sainsburys-groceries.co.uk/gol/6310715/1/1500x1500.jpg",
+      "barcode": "4005808298174"
+    },
+    "exampleResponse": {
+      "item": {
+        "item_id": 14,
+        "material_id": 8,
+        "item_name": "Aerosol deodorant",
+        "img_url": "https://assets.sainsburys-groceries.co.uk/gol/6310715/1/1500x1500.jpg",
+        "barcode": "4005808298174"
+      }
+    }
+  },
+  "GET /api/materials": {
+    "description": "Serves an an array of material objects",
+    "exampleResponse": {
+      "materials": [
+        {
+          "material_id": 1,
+          "material_name": "Polyethylene Terephthalate",
+          "xp": 10,
+          "plastic_code": 1
+        }
+      ]
+    }
+  },
+  "GET /api/materials/materials/:material_id": {
+    "description": "Serves a material object matching the given material_id",
+    "exampleResponse": {
+      "material": {
+        "material_id": 2,
+        "material_name": "High-Density Polyethylene",
+        "xp": 10,
+        "plastic_code": 2
+      }
+    }
+  },
+  "GET /api/users": {
+    "description": "Serves an array of all the users",
+    "exampleResponse": {
+      "users": [
+        {
+          "user_id": 1,
+          "username": "LeoDiCap",
+          "first_name": "Leonardo",
+          "avatar_img_url": "https://avatar.iran.liara.run/public/49.jpg",
+          "postcode": "LS1 1AZ",
+          "xp": 970
+        }
+      ]
+    }
+  },
+  "GET /api/users/:user_id": {
+    "description": "Serves a user object matching the given user_id",
+    "exampleResponse": {
+      "user": {
+        "user_id": 2,
+        "username": "ScarlettJ",
+        "first_name": "Scarlett",
+        "avatar_img_url": "https://avatar.iran.liara.run/public/73.jpg",
+        "postcode": "LS1 1AZ",
+        "xp": 670
+      }
+    }
+  },
+  "PATCH /api/users/:user_id": {
+    "description": "Updates the xp of a user and return the user updated user object",
+    "exampleBody": {
+      "inc_xp": 10
+    },
+    "exampleResponse": {
+      "user": {
+        "user_id": 1,
+        "username": "LeoDiCap",
+        "first_name": "Leonardo",
+        "avatar_img_url": "https://avatar.iran.liara.run/public/49.jpg",
+        "postcode": "LS1 1AZ",
+        "xp": 990
+      }
+    }
+  },
+  "GET /api/logged-items": {
+    "description": "Serves all the logged items",
+    "queries": ["date", "postcode", "postcode_prefix", "start", "end"],
+    "exampleResponse": {
+      "loggedItems": [
+        {
+          "logged_item_id": 2,
+          "item_id": 2,
+          "user_id": 2,
+          "date": "2024-03-18T00:00:00.000Z",
+          "material_id": 2,
+          "item_name": "Cravendale Milk",
+          "img_url": "https://assets.sainsburys-groceries.co.uk/gol/3216590/1/1500x1500.jpg",
+          "barcode": "2345678901",
+          "material_name": "High-Density Polyethylene",
+          "xp": 720,
+          "plastic_code": 2,
+          "username": "ScarlettJ",
+          "first_name": "Scarlett",
+          "avatar_img_url": "https://avatar.iran.liara.run/public/73.jpg",
+          "postcode": "LS1 1AZ"
+        }
+      ]
+    }
+  },
+  "GET /api/:user_id/logged-items": {
+    "description": "Serves all the logged items of the user",
+    "queries": ["date", "start", "end"],
+    "exampleResponse": {
+      "loggedItems": [
+        {
+          "logged_item_id": 2,
+          "item_id": 2,
+          "user_id": 2,
+          "date": "2024-03-18T00:00:00.000Z",
+          "material_id": 2,
+          "item_name": "Cravendale Milk",
+          "img_url": "https://assets.sainsburys-groceries.co.uk/gol/3216590/1/1500x1500.jpg",
+          "barcode": "2345678901",
+          "material_name": "High-Density Polyethylene",
+          "xp": 720,
+          "plastic_code": 2,
+          "username": "ScarlettJ",
+          "first_name": "Scarlett",
+          "avatar_img_url": "https://avatar.iran.liara.run/public/73.jpg",
+          "postcode": "LS1 1AZ"
+        }
+      ]
+    }
+  },
+  "POST /api/logged-items": {
+    "description": "Posts a new logged item",
+    "exampleBody": {
+      "item_id": 6,
+      "user_id": 4
+    },
+    "exampleResponse": {
+      "item": {
+        "logged_item_id": 9,
+        "item_id": 6,
+        "user_id": 4,
+        "date": "2024-11-28T00:00:00.000Z"
+      }
+    }
+  },
+  "GET /api/:user_id/following": {
+    "description": "Serves an array of all the users that the specified user follows",
+    "exampleResponse": {
+      "following": [
+        {
+          "original_user_id": 1,
+          "follower_user_id": 2,
+          "username": "ScarlettJ",
+          "avatar_img_url": "https://avatar.iran.liara.run/public/73.jpg",
+          "postcode": "LS1 1AZ",
+          "xp": 850
+        }
+      ]
+    }
+  },
+  "GET /api/:user_id/followers": {
+    "description": "Serves an array of all the users that follow the specified user",
+    "exampleResponse": {
+      "followers": [
+        {
+          "following_id": 1,
+          "user_id": 5,
+          "follower_id": 1,
+          "username": "JimmyBull",
+          "first_name": "Jimmy",
+          "avatar_img_url": "https://avatar.iran.liara.run/public/1.jpg",
+          "postcode": "YO10 4DX",
+          "xp": 2000
+        }
+      ]
+    }
+  },
+  "POST /api/:user_id/following": {
+    "description": "POSTs a new following entry",
+    "exampleBody": {
+      "follower_id": 4
+    },
+    "exampleResponse": {
+      "newFollow": { "following_id": 8, "user_id": 5, "follower_id": 4 }
+    }
+  },
+  "GET /api/postcodes/:postcode": {
+    "description": "Serves the postcode data of the specified postcode",
+    "exampleResponse": {
+      "postcode": {
+        "postcode": "YO10 4DX",
+        "postcode_prefix": "YO",
+        "area": "Fulford Road & Clementhorpe",
+        "garden_bin_collection": "THUR",
+        "waste_bin_collection": "FRI",
+        "recycling_bin_collection": "WED"
+      }
+    }
+  },
+  "GET /api/recyclability": {
+    "description": "Serves an array of recycling infomation",
+    "exampleResponse": {
+      "items": [
+        {
+          "recyclable_id": 1,
+          "council": "YO",
+          "material": 1,
+          "is_recyclable": true
+        }
+      ]
+    }
+  },
+  "GET /api/recyclability/:council/:material": {
+    "description": "Serves an object of recycling infomation for the specified material and council",
+    "exampleResponse": {
+      "data": {
+        "recyclable_id": 1,
+        "council": "YO",
+        "material": 1,
+        "is_recyclable": true
+      }
+    }
+  }
+}
