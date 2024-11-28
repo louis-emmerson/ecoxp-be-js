@@ -38,12 +38,15 @@ const {
   getListRecyclableItems,
   getListRecyclableItemsById,
 } = require("./controllers/recyclable-items-controllers.js")
+const { getAllEndpoints } = require("./controllers/endpoints-controller.js")
 
 const app = express()
 
 app.use(cors())
 
 app.use(express.json())
+
+app.get("/api", getAllEndpoints)
 
 // Items
 app.get("/api/items", getAllItems)
