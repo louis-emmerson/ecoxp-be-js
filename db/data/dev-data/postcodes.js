@@ -30,6 +30,13 @@ module.exports = [
     "garden_bin_collection": "FRI",
     "waste_bin_collection": "TUES",
     "recycling_bin_collection": "WED"
+  },{
+    "postcode": "LS1 2AA",
+    "postcode_prefix": "LS",
+    "area": "Armley & New Wortley",
+    "garden_bin_collection": "FRI",
+    "waste_bin_collection": "TUES",
+    "recycling_bin_collection": "WED"
   },
   {
     "postcode": "LS1 1HE",
