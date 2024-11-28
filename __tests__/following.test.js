@@ -88,7 +88,7 @@ describe("POST /api/:user_id/following", () => {
     return request(app)
       .post("/api/5/following")
       .send({
-        follower_id: "4",
+        follower_id: 4,
       })
       .expect(201)
       .then(({ body }) => {
